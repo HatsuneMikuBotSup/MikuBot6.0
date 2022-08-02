@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/HatsuneMikuBotSup/MikuBot6.0/issues"
   },
-  "homepage": "https://github.com/HatsuneMikuBotSup/MikuBot6.0#readme"
+  "homepage": "https://github.com/HatsuneMikuBotSup/MikuBot6.0#readme",
+  "dependencies": {
+    "discord.js": "^14.1.2",
+    "dotenv": "^16.0.1",
+    "pg": "^8.7.3"
+  }
 }
