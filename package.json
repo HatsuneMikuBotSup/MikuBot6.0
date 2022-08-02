@@ -1,0 +1,19 @@
+{
+  "name": "mikubot6.0",
+  "version": "1.0.0",
+  "description": "Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HatsuneMikuBotSup/MikuBot6.0.git"
+  },
+  "author": "Miku",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HatsuneMikuBotSup/MikuBot6.0/issues"
+  },
+  "homepage": "https://github.com/HatsuneMikuBotSup/MikuBot6.0#readme"
+}
