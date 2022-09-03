@@ -3,13 +3,15 @@
 const Discord = require("discord.js");
 const allIntents = new Discord.IntentsBitField(32767);
 const client = new Discord.Client({ intents: allIntents });
-const { Client } = require("pg");
+
+//-------------------------------------------------------------------------------------------------Requires
+
 const fs = require("fs");
-const { hasUncaughtExceptionCaptureCallback } = require("process");
 require("dotenv").config();
 
-
 //-------------------------------------------------------------------------------------------------PostgreSQL API
+
+const { Client } = require("pg");
 
 const database = new Client({
     host: "localhost",
