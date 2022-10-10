@@ -1,11 +1,6 @@
-### Solar System Exploration, 1950s – 1960s
+## Miku Bot 6 Roadmap
 
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+### 6.0
+- [ ] Personal Commands
+- [ ] Miku Chatbot
+- [ ] Host on Raspberry PI
