@@ -1,4 +1,8 @@
 # MikuBot6.0
 
-probably never going to be finished 
-:)
+MikuBot is a Discord Bot
+
+
+It uses node js as runtime and PostgreSQL as the backend
+
+The Roadmap of this Bot is in [[todo.md]]
