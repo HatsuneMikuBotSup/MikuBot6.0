@@ -1,6 +1,6 @@
 ## Miku Bot 6 Roadmap
 
 ### 6.0
-- [ ] Personal Commands
+- [X] Personal Commands
 - [ ] Miku Chatbot
 - [ ] Host on Raspberry PI
