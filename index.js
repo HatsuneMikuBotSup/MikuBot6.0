@@ -145,7 +145,6 @@ class IntegratedCommandsHandler {
     }
     async create(message) {
         await cache.updateUsercommands();
-
         let wordsCache = message.content.slice(cache.getPrefix(message.channel.guildId).length).split(/[ ,]+/)
         var newCommand = wordsCache[1].replace(/`/g, '').replace(/´/g, '').replace(/'/g, '').replace(/"/g, '').replace(/[^a-z0-9]/gi, '');
         if (newCommand > 30 || newCommand < 1 || newCommand == undefined || newCommand == null) {
@@ -157,14 +156,12 @@ class IntegratedCommandsHandler {
             message.channel.send("response not valid!");
             return 0;
         }
-
         for (var i = 0; i < this.userCommands.length; i++) {
             if (newCommand == this.userCommands[i]) {
                 message.channel.send("Command is an OG command and cant be changed");
                 return 0;
             }
         }
-
         var duplicateFlag = false;
         for (var i = 0; i < cache.userCommands.size; i++) {
             if (newCommand == Array.from(cache.userCommands.keys())[i]) {
@@ -180,11 +177,9 @@ class IntegratedCommandsHandler {
             databaseHandler.createUserCommands(newCommand, newResponse);
             message.channel.send("Created a new command");
         }
-
         if (message.attachments.size > 0) {
             submit(message, newCommand);
         }
-
         await cache.updateUsercommands();
     }
     describe(message) {
