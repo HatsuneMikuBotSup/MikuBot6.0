@@ -79,7 +79,7 @@ class DatabaseHandler {
         database.query(`SELECT * FROM "USERCOMMANDS";`, (err, result) => {
             if (err || result.rows == undefined) return none;
             for (var i = 0; i < result.rows.length; i++) {
-                userCommand.set(result.rows[i].COMMAND, result.rows[i].RESPONSE);
+                userCommand.set(result.rows[i].COMMAND.toLowerCase(), result.rows[i].RESPONSE);
             }
         });
     }
@@ -148,7 +148,7 @@ class IntegratedCommandsHandler {
         let wordsCache = message.content.slice(cache.getPrefix(message.channel.guildId).length).split(/[ ,]+/)
         var newCommand = wordsCache[1].replace(/`/g, '').replace(/´/g, '').replace(/'/g, '').replace(/"/g, '').replace(/[^a-z0-9]/gi, '');
         if (newCommand > 30 || newCommand < 1 || newCommand == undefined || newCommand == null) {
-            message.channel.send("command not valid!" + newCommand);
+            message.channel.send("command not valid!");
             return 0;
         }
         var newResponse = message.content.slice(cache.getPrefix(message.channel.guildId).length).replace(newCommand, "`").split("`")[1].replace(/`/g, '´').replace(/´/g, '').replace(/'/g, '').replace(/"/g, '').replace(/^\w+$/, '').trim();
@@ -164,17 +164,17 @@ class IntegratedCommandsHandler {
         }
         var duplicateFlag = false;
         for (var i = 0; i < cache.userCommands.size; i++) {
-            if (newCommand == Array.from(cache.userCommands.keys())[i]) {
+            if (newCommand.toLowerCase() == Array.from(cache.userCommands.keys())[i]) {
                 duplicateFlag = true;
             }
         }
         console.log(newCommand, newResponse);
         if (duplicateFlag) {
-            databaseHandler.appendUserCommands(newCommand, newResponse);
+            databaseHandler.appendUserCommands(newCommand.toLowerCase(), newResponse);
             message.channel.send("Appended a allready existing command");
         } else {
-            fs.mkdirSync("./media/usercommands/" + newCommand);
-            databaseHandler.createUserCommands(newCommand, newResponse);
+            fs.mkdirSync("./media/usercommands/" + newCommand.toLowerCase());
+            databaseHandler.createUserCommands(newCommand.toLowerCase(), newResponse);
             message.channel.send("Created a new command");
         }
         if (message.attachments.size > 0) {
@@ -283,7 +283,7 @@ client.on("messageCreate", (message) => {
     } else {
         if (message.author.bot) return 0;
         console.log(message.author.tag + ": " + message.content);
-        var file = mediaSelector("./media/usercommands/cute/");
+        var file = mediaSelector("./media/integrated/dm/");
         message.channel.send({
             content:
                 "Miku only works inside a server!\n" +
@@ -378,7 +378,7 @@ client.on("guildMemberAdd", async (member) => { });
 
 client.on("guildCreate", async (guild) => {
     console.log("I joined a new server: " + guild.name);
-    var file = mediaSelector("./media/usercommands/cute/");
+    var file = mediaSelector("./media/integrated/serverjoin/");
     guild.systemChannel.send({ content: "Thanks for inviting me OwO\nYou can set me up with !setup", files: [file] });
 });
 
@@ -426,10 +426,8 @@ function mediaSelector(path) {
 //---------------------------------------------------------------------SubmitMedia
 
 async function submit(message, command) {
-    var url = [];
-    for (var i = 0; i < message.attachments.size; i++) {
-        url[i] = (message.attachments.get(Array.from(message.attachments.keys())[i]).url);
-    }
+    var url = "";
+    url = (message.attachments.get(Array.from(message.attachments.keys())[0]).url);
     message.channel.send(await submitUrl(url, command));
 }
 //---------------------------------------------------------------------submitUrl
@@ -446,15 +444,14 @@ async function submitUrl(url, command) {
             var length = fs.readdirSync("./media/usercommands/" + command).filter(file => file.endsWith(fileEndings[i])).length
             fileEndingsLengthsTotal += length;
         }
-        for (var k = 0; k < url.length; k++) {
-            request.head(url[k], function (err, res, body) {
+            request.head(url, function (err, res, body) {
                 var ending = "." + res.headers['content-type'].split("/")[1];
                 var flag = true;
                 for (var i = 0; i < fileEndings.length; i++) {
                     if (ending == fileEndings[i]) {
-                        var path = "./media/usercommands/" + command + "/" + (fileEndingsLengthsTotal+k) + ending;
-                        console.log("path");
-                        request(url[k]).pipe(fs.createWriteStream(path));
+                        var path = "./media/usercommands/" + command + "/" + fileEndingsLengthsTotal + ending;
+                        console.log(path);
+                        request(url).pipe(fs.createWriteStream(path));
                         flag = false;
                     }
                 }
@@ -462,12 +459,8 @@ async function submitUrl(url, command) {
                     masterflag += url + "\n";
                 }
             });
-        }
         if (masterflag.length == 0) {
             return "Submission succesfull!";
-
-        } else {
-            return "Submission only partly succesfull! Errors on:\n" + masterflag
         }
     } catch (e) {
         return "There was an Error with the Media!";
