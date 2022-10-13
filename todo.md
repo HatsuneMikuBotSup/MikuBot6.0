@@ -5,3 +5,4 @@
 - [ ] Miku Chatbot
 - [ ] Host on Raspberry PI
 - [ ] Cross Server Usability
+- [ ] Direct Message Usability
