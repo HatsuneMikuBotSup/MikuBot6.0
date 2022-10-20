@@ -3,6 +3,6 @@
 ### 6.0
 - [X] Personal Commands
 - [ ] Miku Chatbot
-- [ ] Host on Raspberry PI
 - [ ] Cross Server Usability
 - [ ] Direct Message Usability
+- [ ] Host on Raspberry PI
